@@ -1,0 +1,14 @@
+# Lamnek — Python-Abhängigkeiten
+# Systemvoraussetzung: ffmpeg muss im PATH verfügbar sein.
+# Ubuntu/Debian: sudo apt-get install ffmpeg
+
+# Kern-Transkription
+click>=8.0.0
+faster-whisper>=1.0.0
+
+# Sprecher-Erkennung (nur lamnek Haupt-Tool)
+pyannote.audio>=3.1.0
+
+# PyTorch (normalerweise mit pyannote/faster-whisper mitinstalliert)
+torch>=2.0.0
+torchaudio>=2.0.0

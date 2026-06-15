@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.whl
+
+# Virtualenvs
+.venv/
+venv/
+env/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Mypy / Pytest / Coverage
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Models / Downloads / Temp
+*.pt
+*.bin
+*.onnx
+checkpoints/
+models/
+*.wav
+*.mp3
+*.m4a
+*.ogg
+*.flac
+tmp/
+temp/
+
+# Outputs
+*_transkript.*
+*_transcript.*
+*_lamnek.*
+
+# Environment
+.env
+*.env
+!example.env
+
+# OS
+.DS_Store
+Thumbs.db
+.venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
