@@ -29,6 +29,11 @@ Voraussetzungen:
 - Python ≥ 3.10
 - ffmpeg im PATH
 - Für Diarisierung: `HF_TOKEN` von HuggingFace
+  1. Token erstellen: <https://huggingface.co/settings/tokens> (Type: Read)
+  2. pyannote Modell-Lizenzen akzeptieren:
+     - <https://huggingface.co/pyannote/speaker-diarization-3.1>
+     - <https://huggingface.co/pyannote/segmentation-3.0>
+  3. Token setzen: `export HF_TOKEN=dein_token`
 
 ## Umgebungsvariablen
 
@@ -120,6 +125,11 @@ Requirements:
 - Python ≥ 3.10
 - ffmpeg on PATH
 - For diarization: `HF_TOKEN` from HuggingFace
+  1. Create token: <https://huggingface.co/settings/tokens> (Type: Read)
+  2. Accept pyannote model licenses:
+     - <https://huggingface.co/pyannote/speaker-diarization-3.1>
+     - <https://huggingface.co/pyannote/segmentation-3.0>
+  3. Set token: `export HF_TOKEN=your_token`
 
 ## Environment Variables
 
