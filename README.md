@@ -16,6 +16,12 @@ Lamnek kombiniert **Speaker Diarization** (pyannote) mit **faster-whisper ASR**
 - ⚡ **CUDA-Fallback** auf CPU
 - 🇩🇪 **Deutsche Nutzerführung**
 
+## Plattform
+
+**Linux only.** Getestet auf Ubuntu/WSL mit NVIDIA CUDA.
+Windows und macOS werden nicht unterstützt (CUDA-Pfade, `/tmp`-Verzeichnis,
+Bash-Wrapper sind Linux-spezifisch).
+
 ## Installation
 
 ```bash
@@ -26,6 +32,7 @@ pip install -e ".[dev]"
 ```
 
 Voraussetzungen:
+- **Linux** (getestet auf Ubuntu/WSL)
 - Python ≥ 3.10
 - ffmpeg im PATH
 - Für Diarisierung: `HF_TOKEN` von HuggingFace
@@ -112,6 +119,12 @@ Lamnek combines **speaker diarization** (pyannote) with **faster-whisper ASR**
 - ⚡ CUDA with CPU fallback
 - 🇩🇪 German user-facing messages
 
+## Platform
+
+**Linux only.** Tested on Ubuntu/WSL with NVIDIA CUDA.
+Windows and macOS are not supported (CUDA paths, `/tmp` directory,
+Bash wrappers are Linux-specific).
+
 ## Installation
 
 ```bash
@@ -122,6 +135,7 @@ pip install -e ".[dev]"
 ```
 
 Requirements:
+- **Linux** (tested on Ubuntu/WSL)
 - Python ≥ 3.10
 - ffmpeg on PATH
 - For diarization: `HF_TOKEN` from HuggingFace
