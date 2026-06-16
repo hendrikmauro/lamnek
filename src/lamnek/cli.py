@@ -10,6 +10,7 @@ from pathlib import Path
 import click
 
 import lamnek.cuda_setup as _cuda  # noqa: F401  # side-effects on import
+from lamnek import __version__
 from lamnek.asr import transcribe_audio
 from lamnek.audio import preprocess_audio
 from lamnek.diarization import diarize, ensure_hf_token
@@ -23,6 +24,7 @@ FORMATS_PRO = {"txt", "srt", "json", "lamnek", "alle"}
 
 
 @click.group(invoke_without_command=True)
+@click.version_option(version=__version__, prog_name="lamnek")
 @click.pass_context
 def cli(ctx: click.Context) -> None:
     """Lamnek — wissenschaftliche Interview-Transkription."""
@@ -370,6 +372,7 @@ def _cleanup(wav_path: str) -> None:
 
 
 @click.command()
+@click.version_option(version=__version__, prog_name="lamnek-simple")
 @click.argument("audio", type=click.Path(exists=True, dir_okay=False))
 @click.option("--sprache", "-s", default="auto", help="de, en, es, pt, auto")
 @click.option(

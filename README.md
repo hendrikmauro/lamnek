@@ -133,14 +133,18 @@ Requirements:
 
 ```bash
 # Full scientific transcription
-lamnek transcribe interview.mp3 --lamnek --language de
+lamnek transcribe interview.mp3 --lamnek --sprache de
 
 # Alias with Lamnek as default
-lamnek transcribe-pro interview.mp3 --speakers "Interviewer,Interviewee"
+lamnek transcribe-pro interview.mp3 --sprecher "Interviewer,Interviewee"
 
 # Simple ASR without diarization
-lamnek-simple podcast.m4a --language de --format srt
+lamnek-simple podcast.m4a --sprache de --format srt
 ```
+
+> **Note:** CLI flags are in German (e.g. `--sprache` for language,
+> `--sprecher` for speakers, `--ort` for location, `--vorschau` for preview).
+> Run `lamnek --help` for the full list.
 
 ## Examples
 
@@ -149,19 +153,19 @@ export HF_TOKEN=hf_...
 
 # Lamnek transcript with header and SRT/JSON
 lamnek transcribe-pro interview.mp3 \
-  --language de \
-  --num-speakers 2 \
-  --speakers "Interviewer,Interviewee" \
-  --project "Study 2026" \
+  --sprache de \
+  --anzahl-sprecher 2 \
+  --sprecher "Interviewer,Interviewee" \
+  --projekt "Study 2026" \
   --pseudonym "P001" \
   --interviewer "Dr. Schmidt" \
-  --location "Berlin"
+  --ort "Berlin"
 
 # Speaker preview without writing files
-lamnek transcribe-pro interview.mp3 --preview
+lamnek transcribe-pro interview.mp3 --vorschau
 
 # ASR only, all formats
-lamnek-simple meeting.ogg --format all
+lamnek-simple meeting.ogg --format alle
 ```
 
 ## Output Files
