@@ -85,6 +85,52 @@ lamnek transcribe-pro interview.mp3 --vorschau
 lamnek-simple meeting.ogg --format alle
 ```
 
+## How it works
+
+Lamnek durchläuft 5 Phasen:
+
+1. **Audio-Preprocessing** (`audio.py`): ffmpeg konvertiert jede Eingabedatei
+   (mp3, m4a, ogg, wav, …) in 16 kHz mono WAV.
+2. **Sprecher-Diarisierung** (`diarization.py`): pyannote.audio (speaker-diarization-3.1)
+   erkennt, wer wann spricht. Output: Segmente mit Start, Ende und Sprecher-Label.
+3. **ASR** (`asr.py`): faster-whisper (large-v3-turbo) transkribiert das WAV zu Text.
+   Arbeitet auf CUDA mit float16, fällt auf CPU mit int8 zurück.
+4. **Merge** (`merge.py`): Überlagert Diarization- mit ASR-Segmenten. Jedem Text-Abschnitt
+   wird der Sprecher zugewiesen, der im gleichen Zeitraum spricht.
+5. **Formatierung** (`lamnek.py` + `formats.py`): Lamnek/Krell-Format mit Zeilennummern,
+   Pausenmarkern (`(--)`=0,5–1s, `(---)`=1–2s, `(Ns)`=2s+), wissenschaftlicher
+   Kopfzeile und optioneller Anonymisierung. Export als TXT, SRT, JSON.
+
+## WSL & CUDA
+
+In WSL greift Linux auf NVIDIA-Treiber von Windows zu über `/usr/lib/wsl/lib`.
+Python findet CUDA-Bibliotheken dort nicht immer automatisch.
+
+Die Wrapper-Skripte in `scripts/` setzen `LD_LIBRARY_PATH` vor dem Start:
+
+```bash
+# Statt lamnek direkt, den Wrapper nutzen:
+bash scripts/lamnek.sh transcribe-pro interview.mp3 --sprache de
+
+# Oder lamnek-simple:
+bash scripts/lamnek-simple.sh interview.mp3 --sprache de
+```
+
+**Wann brauchst du den Wrapper?** Wenn du beim Start `CUDA error: library not found`
+oder einen stillschweigenden CPU-Fallback siehst. Wenn `lamnek` bereits CUDA erkennt
+(`Lade Modell … (cuda)`), brauchst du den Wrapper nicht.
+
+## Sprecher-Zuordnung
+
+pyannote erkennt Sprecher neutral (`SPEAKER_00`, `SPEAKER_01`, …). Die Namen aus
+`--sprecher` werden nach Sprechdauer zugewiesen: der aktivste Sprecher bekommt den
+ersten Namen, der zweitaktivste den zweiten, usw.
+
+- Bei `--anzahl-sprecher 2` kann pyannote trotzdem weitere Sprecher-Labels
+  zurückgeben. Überschüssige Sprecher werden als `Unbekannt` markiert.
+- Die Rollen (Interviewer vs. Befragte) können vertauscht sein — pyannote weiß nicht,
+  wer wer ist. Kontrolliere das Transkript und passe die Namen bei Bedarf an.
+
 ## Output-Dateien
 
 | Suffix | Format | Beschreibung |
@@ -191,6 +237,52 @@ lamnek transcribe-pro interview.mp3 --vorschau
 # ASR only, all formats
 lamnek-simple meeting.ogg --format alle
 ```
+
+## How it works
+
+Lamnek runs through 5 phases:
+
+1. **Audio preprocessing** (`audio.py`): ffmpeg converts any input file
+   (mp3, m4a, ogg, wav, …) to 16 kHz mono WAV.
+2. **Speaker diarization** (`diarization.py`): pyannote.audio (speaker-diarization-3.1)
+   detects who speaks when. Output: segments with start, end, and speaker label.
+3. **ASR** (`asr.py`): faster-whisper (large-v3-turbo) transcribes the WAV to text.
+   Runs on CUDA with float16, falls back to CPU with int8.
+4. **Merge** (`merge.py`): Overlays diarization with ASR segments. Each text segment
+   gets the speaker who is talking in the same time range.
+5. **Formatting** (`lamnek.py` + `formats.py`): Lamnek/Krell format with line numbers,
+   pause markers (`(--)`=0.5–1s, `(---)`=1–2s, `(Ns)`=2s+), scientific header,
+   and optional anonymization. Export as TXT, SRT, JSON.
+
+## WSL & CUDA
+
+In WSL, Linux accesses NVIDIA drivers from Windows via `/usr/lib/wsl/lib`.
+Python may not find CUDA libraries there automatically.
+
+The wrapper scripts in `scripts/` set `LD_LIBRARY_PATH` before launch:
+
+```bash
+# Use the wrapper instead of calling lamnek directly:
+bash scripts/lamnek.sh transcribe-pro interview.mp3 --sprache de
+
+# Or lamnek-simple:
+bash scripts/lamnek-simple.sh interview.mp3 --sprache de
+```
+
+**When do you need the wrapper?** If you see `CUDA error: library not found` or a
+silent CPU fallback at startup. If `lamnek` already detects CUDA
+(`Lade Modell … (cuda)`), you don't need the wrapper.
+
+## Speaker assignment
+
+pyannote detects speakers neutrally (`SPEAKER_00`, `SPEAKER_01`, …). Names from
+`--sprecher` are assigned by speaking duration: the most active speaker gets the
+first name, the second most active gets the second, etc.
+
+- With `--anzahl-sprecher 2`, pyannote may still return additional speaker labels.
+  Excess speakers are marked as `Unbekannt` (unknown).
+- Roles (interviewer vs. interviewee) may be swapped — pyannote doesn't know who is
+  who. Check the transcript and adjust names if needed.
 
 ## Output Files
 
